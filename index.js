@@ -86,14 +86,7 @@ setInterval(()=>{
 
 
 // control -------------------------------------------
-if ('ondeviceorientationabsolute' in window) { 	
-    window.ondeviceorientationabsolute = function(event) {
-        let rotete = event.gamma
-        p.textContent = rotete
-
-    }
-} 
-else if ('ondeviceorientation' in window) { 
+if ('ondeviceorientation' in window) { 
     window.ondeviceorientationabsolute = function(event) {
 
             let rotete = event.gamma
