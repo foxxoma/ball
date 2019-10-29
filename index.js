@@ -97,7 +97,7 @@ if ('ondeviceorientation' in window) {
     window.ondeviceorientationabsolute = function(event) {
             //left -; right +
             let corner = event.gamma
-            //ball.speed = corner.toFixed(1) / 10     
+            ball.speed = corner.toFixed(1) / 10     
     }
 }
 else{
