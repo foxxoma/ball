@@ -4,29 +4,37 @@ ctx = canv.getContext('2d')
 canv.width = window.innerWidth - 15
 canv.height = window.innerHeight - 15
 
-const p = document.getElementById('p');
 
 // data obj ------------------------------------------
 let ball = {
-    src: 'img/ball.png',
     x: 0, 
-    y:0,
-    sizeX: 50,
-    sizeY: 50
+    y: 0,
+    rad: 25,
+    speed: 0,
+    speedGR: 1,
+    platform: true
 }
 
 let platform = [{
-    src: 'img/platform.png',
     x: 0, 
-    y:50,
+    y: 50,
+    sizeX: 100,
+    sizeY: 7
+},{
+    x: 200, 
+    y: 200,
+    sizeX: 100,
+    sizeY: 7
+},{
+    x: 100, 
+    y: 400,
     sizeX: 100,
     sizeY: 7
 }]
 
 let thorn = [{
-    src: 'img/thorn.png',
     x: 300, 
-    y:0,
+    y: 0,
     sizeX: 24,
     sizeY: 50
 }]
@@ -34,35 +42,34 @@ let thorn = [{
 
 
 
-
-// new Img -------------------------------------------
-const ballImg = new Image()
-ballImg.src = ball.src
-
-const platformImg = new Image()
-platformImg.src = platform[0].src
-
-const thornImg = new Image()
-thornImg.src = thorn[0].src
-// new Img ___________________________________________
-
-
-
-
 // draw function -------------------------------------
 function drawBall(){
-    ctx.drawImage(ballImg, ball.x,ball.y, ball.sizeX, ball.sizeY)
+    ctx.strokeStyle = '#2feded'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.arc(ball.x + ball.rad,ball.y + ball.rad, ball.rad, 0, 360)
+    ctx.stroke()
 }
 
 function drawPlatform(){
-    for(let i = 0; i< platform.length; i++){	
-		ctx.drawImage(platformImg, platform[i].x, platform[i].y, platform[i].sizeX, platform[i].sizeY)
+    ctx.strokeStyle = '#2feded'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    for(let i = 0; i< platform.length; i++){
+		ctx.strokeRect(platform[i].x, platform[i].y, platform[i].sizeX, platform[i].sizeY)
     }
 }
 
 function drawThorn(){
-    for(let i = 0; i< thorn.length; i++){	
-		ctx.drawImage(thornImg, thorn[i].x, thorn[i].y, thorn[i].sizeX, thorn[i].sizeY)
+    ctx.strokeStyle = '#2feded'
+    ctx.lineWidth = 3
+    for(let i = 0; i< thorn.length; i++){
+        ctx.beginPath()
+        ctx.moveTo(thorn[i].x,thorn[i].y + thorn[i].sizeY)
+        ctx.lineTo(thorn[i].x + thorn[i].sizeX / 2,thorn[i].y)
+        ctx.lineTo(thorn[i].x + thorn[i].sizeX,thorn[i].y + thorn[i].sizeY)
+        ctx.closePath()
+        ctx.stroke()
 	}
 }
 // draw function _____________________________________
@@ -88,10 +95,9 @@ setInterval(()=>{
 // control -------------------------------------------
 if ('ondeviceorientation' in window) { 
     window.ondeviceorientationabsolute = function(event) {
-
-            let rotete = event.gamma
-            p.textContent = rotete
-            
+            //left -; right +
+            let corner = event.gamma
+            //ball.speed = corner.toFixed(1) / 10     
     }
 }
 else{
@@ -103,5 +109,74 @@ else{
 
 
 // physics <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+function ballDirection(){
+    if(ball.speed > 0){
+        for(let i = 0; i<= ball.speed + 1; i++){
+            ball.x += 1;
+        } 
+    }
+    else if(ball.speed < 0){
+        for(let i = 0; i >= ball.speed - 1; i--){
+            ball.x -= 1;
+        } 
+    }     
+}
 
+
+function onPlatform(){
+    for(let i = 0; i< platform.length; i++){
+        if(Math.abs((platform[i].x + platform[i].sizeX / 2) - ball.x) < ball.rad* 1.5 
+        && Math.abs((platform[i].y - ball.rad*2) - ball.y) < 3
+        ||  Math.abs(platform[i].x - ball.x)< ball.rad*1.5 
+        && Math.abs((platform[i].y - ball.rad*2) - ball.y) < 3){
+            ball.platform = true
+            ball.speedGR = 1
+            break
+        }
+        else{
+            ball.platform = false
+        }
+    }
+}
+
+
+function gravity(){
+    j = 0; 
+    if(!ball.platform){
+        gravityPlay  = setInterval(function(){
+            if(!ball.platform){
+                if(j < 10){
+                    for(let i = 0; i< ball.speedGR;i++){
+                        if(!ball.platform){
+                            ball.y += 1
+                        }else{
+                            clearInterval(gravityPlay)
+                            gravityPlay = null
+                            break
+                        }
+                    }
+                }else{
+                    clearInterval(gravityPlay)
+                    gravityPlay = null
+                    if(ball.speedGR < 4){
+                        ball.speedGR++
+                    }
+                    gravity()
+                }
+            }else{
+                clearInterval(gravityPlay)
+				gravityPlay = null
+            }
+        },50)
+    }	
+		
+} 
+
+
+
+setInterval(()=>{
+    ballDirection()
+    onPlatform()
+    gravity()
+}, 10)
 // physics >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

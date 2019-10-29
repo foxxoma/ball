@@ -1,6 +1,5 @@
-const hp = document.getElementById('hp')
+
 const canv = document.getElementById('canvas')
-const timer = document.getElementById('timer')
 ctx = canv.getContext('2d')
 
 alert('Покормите разраба :333 (89188382438)')
