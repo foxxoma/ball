@@ -5,6 +5,7 @@ ctx = canv.getContext('2d')
 canv.width = window.innerWidth 
 canv.height = window.innerHeight
 
+alert('На покушац (89188382438) :3')
 
 // data obj ------------------------------------------
 let ball = {
