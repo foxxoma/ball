@@ -6,7 +6,7 @@ canv.width = window.innerWidth
 canv.height = window.innerHeight
 
 alert('На покушац (89188382438) :3')
-
+let speedStep = prompt('speed step ball 1-3');
 // data obj ------------------------------------------
 let ball = {
     x: 0, 
@@ -126,12 +126,12 @@ else{
 // physics <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 function ballDirection(){
     if(ball.speed > 0){
-        for(let i = 0; i<= ball.speed + 2; i++){
+        for(let i = 0; i<= ball.speed + speedStep; i++){
             ball.x += 1;
         } 
     }
     else if(ball.speed < 0){
-        for(let i = 0; i >= ball.speed - 2; i--){
+        for(let i = 0; i >= ball.speed - speedStep; i--){
             ball.x -= 1;
         } 
     }     
