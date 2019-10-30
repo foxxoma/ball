@@ -8,7 +8,7 @@ canv.height = window.innerHeight - 15
 // data obj ------------------------------------------
 let ball = {
     x: 0, 
-    y: 0,
+    y: 50,
     rad: 25,
     speed: 0,
     speedGR: 1,
@@ -17,28 +17,40 @@ let ball = {
 
 let platform = [{
     x: 0, 
-    y: 50,
-    sizeX: 100,
-    sizeY: 7
-},{
-    x: 200, 
-    y: 200,
-    sizeX: 100,
-    sizeY: 7
-},{
-    x: 100, 
-    y: 400,
+    y: 100,
     sizeX: 100,
     sizeY: 7
 }]
 
 let thorn = [{
-    x: 300, 
-    y: 0,
     sizeX: 24,
-    sizeY: 50
+    sizeY: 50,
+    x: canv.width - 24, 
+    y: 0 - 50,
 }]
 // data obj __________________________________________
+
+
+
+
+//start <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+function start(){
+    let startCount = 10
+    for(let i = 0; i < startCount;i++){
+        let rY = Math.floor(Math.random() * (canv.height - 20 - 0) + 0)
+        let rX = Math.floor(Math.random() * (canv.width - 100 - 0) + 0)
+        objPlatform = {
+            x: rX, 
+            y: rY,
+            sizeX: 100,
+            sizeY: 7
+        }
+        platform.push(objPlatform)
+    }
+}
+start();
+//start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 
 
@@ -65,9 +77,9 @@ function drawThorn(){
     ctx.lineWidth = 3
     for(let i = 0; i< thorn.length; i++){
         ctx.beginPath()
-        ctx.moveTo(thorn[i].x,thorn[i].y + thorn[i].sizeY)
-        ctx.lineTo(thorn[i].x + thorn[i].sizeX / 2,thorn[i].y)
-        ctx.lineTo(thorn[i].x + thorn[i].sizeX,thorn[i].y + thorn[i].sizeY)
+        ctx.moveTo(thorn[i].x,thorn[i].y)//thorn[i].x,thorn[i].y + thorn[i].sizeY
+        ctx.lineTo(thorn[i].x + thorn[i].sizeX / 2,thorn[i].y + thorn[i].sizeY)//thorn[i].x + thorn[i].sizeX / 2,thorn[i].y
+        ctx.lineTo(thorn[i].x + thorn[i].sizeX,thorn[i].y)//thorn[i].x + thorn[i].sizeX,thorn[i].y + thorn[i].sizeY
         ctx.closePath()
         ctx.stroke()
 	}
@@ -88,6 +100,7 @@ setInterval(()=>{
     drawBall()
 },10)
 //draw all ___________________________________________
+
 
 
 
@@ -137,7 +150,25 @@ function onPlatform(){
             ball.platform = false
         }
     }
+    if(ball.y < -50 || ball.y > canv.height){
+        location.reload()
+    }
 }
+
+
+
+function onThorn(){
+    for(let i = 0; i< thorn.length; i++){
+        if(Math.abs(thorn[i].x - ball.x) < ball.rad * 2
+        && Math.abs(thorn[i].y - ball.y) < ball.rad * 2)
+        {
+            location.reload()
+        }
+       
+    }
+}
+
+
 
 
 function gravity(){
@@ -160,7 +191,7 @@ function gravity(){
                 }else{
                     clearInterval(gravityPlay)
                     gravityPlay = null
-                    if(ball.speedGR < 4){
+                    if(ball.speedGR < 3){
                        ball.speedGR++
                     }
                     gravity()
@@ -176,9 +207,68 @@ function gravity(){
 
 
 
+
+function movementScreen(){
+    for(let i = 0; i< platform.length; i++){
+            platform[i].y -= 1
+    }
+    if(ball.platform){
+        ball.y -= 1
+    }
+
+    for(let i = 0; i< thorn.length; i++){
+        for(let j = 0; j<=3; j++){
+            thorn[i].y += 1
+        }
+    }
+
+    if(ball.x - ball.rad * 2 < 0){
+        ball.x = canv.width
+    }
+    if(ball.x > canv.width){
+        ball.x = 0 - ball.rad * 2
+    }
+}
+
+// physics >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+// new ----------------------------------------------------------------
+function newPlatform(){
+    let rX = Math.floor(Math.random() * (canv.width - platform[0].sizeX + 0) + 0)
+    for(let i = 0; i< platform.length; i++){
+        if(platform[i].y < 0){
+           platform[i].y = canvas.height
+           platform[i].x = rX
+        }
+    }
+}
+
+
+
+
+function newThorn(){
+    let rX = Math.floor(Math.random() * (canv.width - thorn[0].sizeX + 0) + 0)
+    for(let i = 0; i< thorn.length; i++){
+        if(thorn[i].y > canv.width){
+           thorn[i].y = 0 - thorn[0].sizeY
+           thorn[i].x = rX
+        }
+    }
+}
+// new ________________________________________________________________
+
+
+// interval --------------------------------------------------------------
 setInterval(()=>{
     ballDirection()
     onPlatform()
+    onThorn()
     gravity()
+    movementScreen()
+    newPlatform()
+    newThorn()
 }, 10)
-// physics >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// interval ______________________________________________________________
