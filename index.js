@@ -214,13 +214,13 @@ function gravity(){
 
 function movementScreen(){
     for(let i = 0; i< platform.length; i++){
-    	for(let j = 0; j<3; j++){
+    	for(let j = 0; j<2; j++){
             platform[i].y -= 1
         } 
             
     }
     if(ball.platform){
-    	for(let j = 0; j<3; j++){
+    	for(let j = 0; j<2; j++){
             ball.y -= 1
         } 
     }
