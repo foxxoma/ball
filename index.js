@@ -10,7 +10,7 @@ alert('На покушац (89188382438) :3')
 // data obj ------------------------------------------
 let ball = {
     x: 0, 
-    y: 50,
+    y: 150,
     rad: 25,
     speed: 0,
     speedGR: 1,
@@ -19,7 +19,7 @@ let ball = {
 
 let platform = [{
     x: 0, 
-    y: 100,
+    y: 200,
     sizeX: 100,
     sizeY: 7
 }]
@@ -214,10 +214,15 @@ function gravity(){
 
 function movementScreen(){
     for(let i = 0; i< platform.length; i++){
+    	for(let j = 0; j<3; j++){
             platform[i].y -= 1
+        } 
+            
     }
     if(ball.platform){
-        ball.y -= 1
+    	for(let j = 0; j<3; j++){
+            ball.y -= 1
+        } 
     }
 
     for(let i = 0; i< thorn.length; i++){
