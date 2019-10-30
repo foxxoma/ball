@@ -111,12 +111,12 @@ else{
 // physics <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 function ballDirection(){
     if(ball.speed > 0){
-        for(let i = 0; i<= ball.speed + 1; i++){
+        for(let i = 0; i<= ball.speed; i++){
             ball.x += 1;
         } 
     }
     else if(ball.speed < 0){
-        for(let i = 0; i >= ball.speed - 1; i--){
+        for(let i = 0; i >= ball.speed; i--){
             ball.x -= 1;
         } 
     }     
@@ -143,10 +143,11 @@ function onPlatform(){
 function gravity(){
     j = 0; 
     if(!ball.platform){
-        gravityPlay  = setInterval(function(){
+        let gravityPlay  = setInterval(function(){
             if(!ball.platform){
-                if(j < 10){
+                if(j < 20){
                     for(let i = 0; i< ball.speedGR;i++){
+                        onPlatform()
                         if(!ball.platform){
                             ball.y += 1
                         }else{
@@ -155,11 +156,12 @@ function gravity(){
                             break
                         }
                     }
+                    j++
                 }else{
                     clearInterval(gravityPlay)
                     gravityPlay = null
                     if(ball.speedGR < 4){
-                        ball.speedGR++
+                       ball.speedGR++
                     }
                     gravity()
                 }
