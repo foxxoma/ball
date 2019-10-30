@@ -107,7 +107,13 @@ setInterval(()=>{
 
 
 // control -------------------------------------------
-if ('ondeviceorientation' in window) { 
+if(window.DeviceOrientationEvent) {
+	window.addEventListener("deviceorientation", function(event) {
+		let corner = event.gamma
+    	ball.speed = corner.toFixed(1) / 10 
+	})
+}
+else if('ondeviceorientation' in window) { 
     window.ondeviceorientationabsolute = function(event) {
             //left -; right +
             let corner = event.gamma
@@ -116,7 +122,8 @@ if ('ondeviceorientation' in window) {
 }
 else{
         alert('Error device orientation');
-}
+    }
+
 // control ___________________________________________
 
 
