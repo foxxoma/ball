@@ -10,7 +10,7 @@ alert('На покушац (89188382438) :3')
 // data obj ------------------------------------------
 let ball = {
     x: 0, 
-    y: 150,
+    y: canv.height/2,
     rad: 25,
     speed: 0,
     speedGR: 1,
@@ -19,7 +19,7 @@ let ball = {
 
 let platform = [{
     x: 0, 
-    y: 200,
+    y: canv.height/2 + 50,
     sizeX: 100,
     sizeY: 7
 }]
