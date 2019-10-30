@@ -1,8 +1,9 @@
+const timer = document.getElementById('timer')
 const canv = document.getElementById('canvas')
 ctx = canv.getContext('2d')
 
-canv.width = window.innerWidth - 15
-canv.height = window.innerHeight - 15
+canv.width = window.innerWidth 
+canv.height = window.innerHeight
 
 
 // data obj ------------------------------------------
@@ -154,14 +155,17 @@ function onPlatform(){
 }
 
 
-
+let end = false;
 function onThorn(){
     for(let i = 0; i< thorn.length; i++){
         if(Math.abs(thorn[i].x - ball.x) < ball.rad * 2
         && Math.abs(thorn[i].y - ball.y) < ball.rad * 2)
         {
-            alert('ex: ' + timer)
-            location.reload()
+            if(!end){
+                end = true
+                alert('ex: ' + ex)
+                location.reload()
+            }
         }
        
     }
@@ -228,8 +232,11 @@ function movementScreen(){
         ball.x = 0 - ball.rad * 2
     }
     if(ball.y < -50 || ball.y > canv.height){
-        alert('ex: ' + timer)
-        location.reload()
+       if(!end){
+            end = true
+            alert('ex: ' + ex)
+            location.reload()
+        }
     }
 }
 
@@ -255,7 +262,7 @@ function newPlatform(){
 function newThorn(){
     let rX = Math.floor(Math.random() * (canv.width - thorn[0].sizeX + 0) + 0)
     for(let i = 0; i< thorn.length; i++){
-        if(thorn[i].y > canv.width){
+        if(thorn[i].y > canv.height){
            thorn[i].y = 0 - thorn[0].sizeY
            thorn[i].x = rX
         }
@@ -278,8 +285,23 @@ setInterval(()=>{
 
 
 
-let timer = 0;
-setInterval(() => {
-timer++
-},1000)
+let ex = 0;
+let m = 0, s = 0;
+const timerRun = setInterval(() => {
+    ex++
+	s++
+	if(s == 60){
+		s=0
+		m++
+	}
+	if(s<10 && m<10){
+	timer.textContent = '0'+ m +':'+'0'+ s
+	}else if(s<10 && m>10){
+		timer.textContent =  m +':'+'0'+ s
+	}else if(s>10 && m<10){
+		timer.textContent =  '0'+ m +':'+ s
+	}else{
+		timer.textContent =  m +':'+ s
+	}
+}, 1000);
 // interval ______________________________________________________________
