@@ -126,12 +126,12 @@ else{
 // physics <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 function ballDirection(){
     if(ball.speed > 0){
-        for(let i = 0; i<= ball.speed; i++){
+        for(let i = 0; i<= ball.speed + 2; i++){
             ball.x += 1;
         } 
     }
     else if(ball.speed < 0){
-        for(let i = 0; i >= ball.speed; i--){
+        for(let i = 0; i >= ball.speed - 2; i--){
             ball.x -= 1;
         } 
     }     
