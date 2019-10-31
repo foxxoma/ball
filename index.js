@@ -5,8 +5,12 @@ ctx = canv.getContext('2d')
 canv.width = window.innerWidth 
 canv.height = window.innerHeight
 
-alert('На покушац (89188382438) :3')
+
 // data obj ------------------------------------------
+let colorRandom
+const color = ['#ff2e4c','#2adb28','#f48322','#e52df4','#2feded']
+const colorBg = ['#030001','#000200','#050300','#050005','#000407']
+
 let ball = {
     x: 0, 
     y: canv.height/2,
@@ -48,6 +52,11 @@ function start(){
         }
         platform.push(objPlatform)
     }
+        let alertRandom = Math.floor(Math.random() * (10 - 0) + 0)
+        if(alertRandom == 7){alert('На покушац (89188382438) :3')}
+
+        colorRandom = Math.floor(Math.random() * (color.length - 0) + 0)
+        timer.style.color = color[colorRandom]
 }
 start();
 //start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -57,7 +66,7 @@ start();
 
 // draw function -------------------------------------
 function drawBall(){
-    ctx.strokeStyle = '#2feded'
+    ctx.strokeStyle = color[colorRandom]
     ctx.lineWidth = 3
     ctx.beginPath()
     ctx.arc(ball.x + ball.rad,ball.y + ball.rad, ball.rad, 0, 360)
@@ -65,7 +74,7 @@ function drawBall(){
 }
 
 function drawPlatform(){
-    ctx.strokeStyle = '#2feded'
+    ctx.strokeStyle = color[colorRandom]
     ctx.lineWidth = 3
     ctx.beginPath()
     for(let i = 0; i< platform.length; i++){
@@ -74,7 +83,7 @@ function drawPlatform(){
 }
 
 function drawThorn(){
-    ctx.strokeStyle = '#2feded'
+    ctx.strokeStyle = color[colorRandom]
     ctx.lineWidth = 3
     for(let i = 0; i< thorn.length; i++){
         ctx.beginPath()
@@ -92,7 +101,7 @@ function drawThorn(){
 
 //draw all -------------------------------------------
 setInterval(()=>{
-    ctx.fillStyle = '#06141f'
+    ctx.fillStyle = colorBg[colorRandom]
 
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -115,9 +124,15 @@ if(window.DeviceOrientationEvent) {
 }
 else if('ondeviceorientation' in window) { 
     window.ondeviceorientationabsolute = function(event) {
-            //left -; right +
-            let corner = event.gamma
-            ball.speed = corner.toFixed(1) / 10     
+        //left -; right +
+        let corner = event.gamma
+        ball.speed = corner.toFixed(1) / 10     
+    }
+}
+else if ('ondeviceorientationabsolute' in window) { 
+    window.ondeviceorientationabsolute = function(event) {
+        let corner = event.gamma
+        ball.speed = corner.toFixed(1) / 10
     }
 }
 else{
