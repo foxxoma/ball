@@ -274,8 +274,8 @@ function movementScreen(){
 
 // new ----------------------------------------------------------------
 function newPlatform(){
-    let rX = Math.floor(Math.random() * (canv.width - platform[0].sizeX + 0) + 0)
     for(let i = 0; i< platform.length; i++){
+        let rX = Math.floor(Math.random() * (canv.width - platform[0].sizeX + 0) + 0)
         if(platform[i].y < 0){
            platform[i].y = canvas.height
            platform[i].x = rX
@@ -287,8 +287,17 @@ function newPlatform(){
 
 
 function newThorn(){
-    let rX = Math.floor(Math.random() * (canv.width - thorn[0].sizeX + 0) + 0)
+    if(ex % 30 == 0){
+        let objThorn =  {
+            sizeX: 24,
+            sizeY: 50,
+            x: canv.width - 24, 
+            y: 0 - 50,
+        }
+        thorn.push(objThorn)
+    }
     for(let i = 0; i< thorn.length; i++){
+        let rX = Math.floor(Math.random() * (canv.width - thorn[0].sizeX + 0) + 0)
         if(thorn[i].y > canv.height){
            thorn[i].y = 0 - thorn[0].sizeY
            thorn[i].x = rX
@@ -312,8 +321,8 @@ setInterval(()=>{
 
 
 
-let ex = 0;
-let m = 0, s = 0;
+let ex = 1
+let m = 0, s = 0
 const timerRun = setInterval(() => {
     ex++
 	s++
