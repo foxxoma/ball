@@ -284,10 +284,11 @@ function newPlatform(){
 }
 
 
-
+let thornCount = 30
 
 function newThorn(){
-    if(ex % 30 == 0){
+    if(ex == thornCount){
+        thornCount *= 2
         let objThorn =  {
             sizeX: 24,
             sizeY: 50,
