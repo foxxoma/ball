@@ -8,4 +8,8 @@
     right: 0%;
     font-size: 20px;
     color: #2feded;
+    text-align: center;
+}
+html, body{
+	overflow:  hidden;
 }

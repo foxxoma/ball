@@ -5,6 +5,8 @@ ctx = canv.getContext('2d')
 canv.width = window.innerWidth 
 canv.height = window.innerHeight
 
+let left = false,
+right = false
 
 // data obj ------------------------------------------
 let colorRandom
@@ -52,8 +54,8 @@ function start(){
         }
         platform.push(objPlatform)
     }
-        let alertRandom = Math.floor(Math.random() * (10 - 0) + 0)
-        if(alertRandom == 7){alert('На покушац (89188382438) :3')}
+        //let alertRandom = Math.floor(Math.random() * (10 - 0) + 0)
+        //if(alertRandom == 7){alert('На покушац (89188382438) :3')}
 
         colorRandom = Math.floor(Math.random() * (color.length - 0) + 0)
         timer.style.color = color[colorRandom]
@@ -139,6 +141,50 @@ else{
         alert('Error device orientation');
     }
 
+document.addEventListener('keydown', (e)=> {
+    if (e.keyCode == 37){
+       ball.speed = -2;
+       left = true
+    }
+      if (e.keyCode == 39){
+        ball.speed = 2;
+        right = true
+    }
+})
+document.addEventListener('keyup', (e)=> {
+    if (e.keyCode == 37){
+       left = false
+    }
+    if (e.keyCode == 39){
+        right = false
+    }
+    if(!right && !left){
+        ball.speed = 0
+    }
+})
+
+// document.addEventListener('mousedown', (e)=> {
+//     console.log(e.clientX +':'+ e.clientY)
+//     if(e.clientX < canv.width/2){
+//         ball.speed = -2;
+//         right = true
+//     }
+//     if(e.clientX > canv.width/2){
+//         ball.speed = 2;
+//         left = true
+//     }
+// })
+// document.addEventListener('mouseup', (e)=> {
+//     if (e.clientX < canv.width/2){
+//        left = false
+//     }
+//     if (e.clientX > canv.width/2){
+//         right = false
+//     }
+//     if(!right && !left){
+//         ball.speed = 0
+//     }
+// })
 // control ___________________________________________
 
 
